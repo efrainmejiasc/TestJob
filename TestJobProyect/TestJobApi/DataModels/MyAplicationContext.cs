@@ -14,6 +14,6 @@ namespace TestJobApi.DataModels
         }
 
         public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<UserApp> User { get; set; }
+        public virtual DbSet<UserApp> UserApp { get; set; }
     }
 }

@@ -7,17 +7,21 @@ using TestJobApi.Repositories.Interface;
 
 namespace TestJobApi.Repositories
 {
-    public class UserRepository :IUserRepository
+    public class ProductRepository:IProductRepository
     {
         private readonly MyAplicationContext db;
-        public UserRepository(MyAplicationContext _db)
+        public ProductRepository(MyAplicationContext _db)
         {
             db = _db;
         }
 
-        public UserApp GetUser(string username, string password)
+        public Product InsertProduct(Product model)
         {
-            return db.User.Where(x => x.Username == username && x.Password == password).FirstOrDefault();
+            db.Product.Add(model);
+            db.SaveChanges();
+
+            return model;
         }
+
     }
 }

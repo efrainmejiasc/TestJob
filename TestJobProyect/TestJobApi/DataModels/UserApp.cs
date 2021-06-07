@@ -23,7 +23,6 @@ namespace TestJobApi.DataModels
         [Column(Order = 3, TypeName = "VARCHAR(50)")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "Campo requerido")]
         [Column(Order = 4, TypeName = "VARCHAR(50)")]
         public string Rol { get; set; }
 

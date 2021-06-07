@@ -6,7 +6,7 @@ using TestJobApi.DataModels;
 
 namespace TestJobApi.Repositories.Interface
 {
-    public interface IUserRepository
+    public interface IUserAppRepository
     {
        public UserApp GetUser(string username, string password);
     }

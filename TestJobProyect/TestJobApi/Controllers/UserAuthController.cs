@@ -22,24 +22,23 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace TestJobApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class UserAuth : ControllerBase
+    public class UserAuthController : ControllerBase
     {
 
-        private readonly IUserRepository userRepository;
-        public UserAuth(IUserRepository _userRepository)
+        private readonly IUserAppRepository userRepository;
+        public UserAuthController(IUserAppRepository _userRepository)
         {
             userRepository = _userRepository;
         }
 
 
-        [AllowAnonymous]
         [HttpPost]
-        [ActionName("Login")]
-        public IHttpActionResult Login([FromBody] UserApp login)
+        [AllowAnonymous]
+        [Route("api/UserAuth/Login")]
+        public IActionResult Login ([FromBody] UserApp login)
         {
-            IHttpActionResult response = (IHttpActionResult)Unauthorized();
+            IActionResult response = Unauthorized();
             var user = userRepository.GetUser(login.Username, login.Password);
             if (user.Id == 0)
                 return response;
@@ -49,7 +48,7 @@ namespace TestJobApi.Controllers
             DateTime time = DateTime.Now;
             DateTime expireTime = time.AddDays(Convert.ToInt32(expire));
             var tokenString = GenerateTokenJwt(user, unicoIdentificador, time, expireTime);
-            response = (IHttpActionResult)Ok(new
+            response = Ok(new
             {
                 access_token = tokenString,
                 expire_token = "11520000",
@@ -63,31 +62,29 @@ namespace TestJobApi.Controllers
             return response;
         }
 
-        private string GenerateTokenJwt(UserApp user, string unicoIdentificador, DateTime time, DateTime expireTime)
+        private object GenerateTokenJwt(UserApp user, string unicoIdentificador, DateTime time, DateTime expireTime)
         {
 
-            string key = "KeySecret"; 
+            string key = "oMOIolaRl5NlZhh8264xw05pnAztSItH"; 
             var issuer = "http://testingjob3000-001-site1.ftempurl.com";
-            var audience = "http://testingjob3000-001-site1.ftempurl.com"; 
+            var audience= "http://testingjob3000-001-site1.ftempurl.com";
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
- 
+  
             var permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            permClaims.Add(new Claim(ClaimTypes.Name, user.Username));
-            permClaims.Add(new Claim(ClaimTypes.DateOfBirth, user.CreatedDate.ToString()));
-            permClaims.Add(new Claim("HoraToken", DateTime.UtcNow.ToString()));
-            permClaims.Add(new Claim(ClaimTypes.Anonymous, unicoIdentificador));
+            permClaims.Add(new Claim("valid", "1"));
+            permClaims.Add(new Claim("userid", user.Id.ToString()));
+            permClaims.Add(new Claim("name", user.Username));
 
-            var token = new JwtSecurityToken(audience,
-                            issuer,   
-                            permClaims,
-                            expires: DateTime.Now.AddDays(1),
-                            signingCredentials: credentials);
+            var token = new JwtSecurityToken(issuer,
+                    audience,  
+                    permClaims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: credentials);
             var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt_token;
+            return new { data = jwt_token };
         }
     }
 }
