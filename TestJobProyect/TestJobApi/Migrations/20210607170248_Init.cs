@@ -24,7 +24,7 @@ namespace TestJobApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "UserApp",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INT", nullable: false)
@@ -36,7 +36,7 @@ namespace TestJobApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_UserApp", x => x.Id);
                 });
         }
 
@@ -46,7 +46,7 @@ namespace TestJobApi.Migrations
                 name: "Product");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "UserApp");
         }
     }
 }

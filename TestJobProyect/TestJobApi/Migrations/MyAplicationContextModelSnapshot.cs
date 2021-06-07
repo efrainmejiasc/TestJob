@@ -46,7 +46,7 @@ namespace TestJobApi.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("TestJobApi.DataModels.User", b =>
+            modelBuilder.Entity("TestJobApi.DataModels.UserApp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,7 @@ namespace TestJobApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("UserApp");
                 });
 #pragma warning restore 612, 618
         }

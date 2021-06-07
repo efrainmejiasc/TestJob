@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace TestJobApi.DataModels
 {
-    [Table("User")]
-    public class User
+    [Table("UserApp")]
+    public class UserApp
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

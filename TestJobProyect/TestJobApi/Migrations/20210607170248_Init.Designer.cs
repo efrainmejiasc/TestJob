@@ -10,7 +10,7 @@ using TestJobApi.DataModels;
 namespace TestJobApi.Migrations
 {
     [DbContext(typeof(MyAplicationContext))]
-    [Migration("20210607152542_Init")]
+    [Migration("20210607170248_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace TestJobApi.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("TestJobApi.DataModels.User", b =>
+            modelBuilder.Entity("TestJobApi.DataModels.UserApp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace TestJobApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("UserApp");
                 });
 #pragma warning restore 612, 618
         }
