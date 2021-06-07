@@ -16,6 +16,7 @@ using TestJobApi.Repositories.Interface;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using TestJobApi.Aplication;
 
 namespace TestJobApi
 {
@@ -31,6 +32,10 @@ namespace TestJobApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            EngineData.Audience = Configuration.GetValue<string>("Jwt:Audience");
+            EngineData.Key = Configuration.GetValue<string>("Jwt:Key");
+            EngineData.Issuer = Configuration.GetValue<string>("Jwt:Issuer");
+
             SetupJWTServices(services);
             services.AddControllers();
             services.AddDbContext<MyAplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +43,8 @@ namespace TestJobApi
             services.AddTransient<MyAplicationContext, MyAplicationContext>();
             services.AddTransient<IUserAppRepository, UserAppRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,8 +69,8 @@ namespace TestJobApi
 
         private void SetupJWTServices(IServiceCollection services)
         {
-            string key = "oMOIolaRl5NlZhh8264xw05pnAztSItH";
-            var issuer = "http://testingjob3000-001-site1.ftempurl.com";
+            string key = EngineData.Key;
+            var issuer = EngineData.Issuer;
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           .AddJwtBearer(options =>

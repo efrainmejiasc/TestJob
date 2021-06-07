@@ -19,6 +19,7 @@ using AllowAnonymousAttribute = Microsoft.AspNetCore.Authorization.AllowAnonymou
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using TestJobApi.Aplication;
 
 namespace TestJobApi.Controllers
 {
@@ -65,9 +66,9 @@ namespace TestJobApi.Controllers
         private object GenerateTokenJwt(UserApp user, string unicoIdentificador, DateTime time, DateTime expireTime)
         {
 
-            string key = "oMOIolaRl5NlZhh8264xw05pnAztSItH"; 
-            var issuer = "http://testingjob3000-001-site1.ftempurl.com";
-            var audience= "http://testingjob3000-001-site1.ftempurl.com";
+            string key = EngineData.Key; 
+            var issuer = EngineData.Issuer;
+            var audience= EngineData.Audience;
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
